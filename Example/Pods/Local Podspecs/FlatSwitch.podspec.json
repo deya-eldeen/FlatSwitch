@@ -1,0 +1,22 @@
+{
+  "name": "FlatSwitch",
+  "version": "0.1.0",
+  "summary": "A short description of FlatSwitch.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/deya-eldeen/FlatSwitch",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "deya-eldeen": "deyaa@jeeran.com"
+  },
+  "source": {
+    "git": "https://github.com/deya-eldeen/FlatSwitch.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "FlatSwitch/Classes/**/*"
+}

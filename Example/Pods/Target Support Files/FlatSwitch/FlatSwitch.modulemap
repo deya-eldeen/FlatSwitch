@@ -1,0 +1,6 @@
+framework module FlatSwitch {
+  umbrella header "FlatSwitch-umbrella.h"
+
+  export *
+  module * { export * }
+}

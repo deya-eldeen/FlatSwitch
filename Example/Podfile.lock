@@ -1,0 +1,16 @@
+PODS:
+  - FlatSwitch (0.1.0)
+
+DEPENDENCIES:
+  - FlatSwitch (from `../`)
+
+EXTERNAL SOURCES:
+  FlatSwitch:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FlatSwitch: 46bd1bf18129b2fe359e3bcaea1d3db5a7bc2a79
+
+PODFILE CHECKSUM: 63ba26e2a3b42be2dfa504c61079e6ebb015c108
+
+COCOAPODS: 1.8.4

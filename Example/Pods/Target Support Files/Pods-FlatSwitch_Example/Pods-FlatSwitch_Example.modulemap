@@ -1,0 +1,6 @@
+framework module Pods_FlatSwitch_Example {
+  umbrella header "Pods-FlatSwitch_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
