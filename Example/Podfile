@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'FlatSwitch_Example' do
+  pod 'FlatSwitch', :path => '../'
+
+  target 'FlatSwitch_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
