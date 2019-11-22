@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'FlatSwitch'
   s.version          = '0.1.1'
-  s.summary          = 'A short description of FlatSwitch.'
+  s.summary          = 'iOS Animated Flat Switch..'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -31,7 +31,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'FlatSwitch/Classes/**/*'
-  
+  s.swift_versions = '4.0'
   # s.resource_bundles = {
   #   'FlatSwitch' => ['FlatSwitch/Assets/*.png']
   # }
