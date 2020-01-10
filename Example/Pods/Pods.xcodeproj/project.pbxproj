@@ -20,6 +20,8 @@
 		E311F8BB2387F6BA0039ADF6 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E311F8B82387F6BA0039ADF6 /* check@2x.png */; };
 		E311F8BC2387F6BA0039ADF6 /* check@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E311F8B92387F6BA0039ADF6 /* check@3x.png */; };
 		E311F8BD2387F6BA0039ADF6 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = E311F8BA2387F6BA0039ADF6 /* check.png */; };
+		E4314D1F23C85CD600363A3A /* DisabledStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4314D1E23C85CD600363A3A /* DisabledStateView.swift */; };
+		E4314D2123C85E6C00363A3A /* FlatSwitchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4314D2023C85E6C00363A3A /* FlatSwitchConfiguration.swift */; };
 		FFA3057706AACF23F332F1338719F99E /* Pods-FlatSwitch_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CBDBB6BB03361554AB1AD92BA6B13627 /* Pods-FlatSwitch_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -74,6 +76,8 @@
 		E311F8B82387F6BA0039ADF6 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check@2x.png"; path = "../FlatSwitch/Assets/check@2x.png"; sourceTree = "<group>"; };
 		E311F8B92387F6BA0039ADF6 /* check@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check@3x.png"; path = "../FlatSwitch/Assets/check@3x.png"; sourceTree = "<group>"; };
 		E311F8BA2387F6BA0039ADF6 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = ../FlatSwitch/Assets/check.png; sourceTree = "<group>"; };
+		E4314D1E23C85CD600363A3A /* DisabledStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledStateView.swift; sourceTree = "<group>"; };
+		E4314D2023C85E6C00363A3A /* FlatSwitchConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatSwitchConfiguration.swift; sourceTree = "<group>"; };
 		E857F785F4C7C5E9B8D41028CCB7AAAB /* Pods-FlatSwitch_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-FlatSwitch_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		EDDD8997A5BD4CA56052141394DBA2C6 /* FlatSwitch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlatSwitch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4CD10389AC0C5524F748E946AFEB8FA /* Pods-FlatSwitch_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FlatSwitch_Tests.modulemap"; sourceTree = "<group>"; };
@@ -112,7 +116,9 @@
 			children = (
 				E311F8B72387F6AF0039ADF6 /* Assets */,
 				E311F8B22387F3000039ADF6 /* FlatCheckBox.swift */,
+				E4314D2023C85E6C00363A3A /* FlatSwitchConfiguration.swift */,
 				E311F8B12387F2FF0039ADF6 /* FlatCheckBoxThumb.swift */,
+				E4314D1E23C85CD600363A3A /* DisabledStateView.swift */,
 				9BBE0BC031FEBCBE6C15C013788D78A5 /* Pod */,
 				CDD05EC0D0F52EA35D2DDDC788270716 /* Support Files */,
 			);
@@ -397,6 +403,8 @@
 			files = (
 				8D724E1849DC0B19836510AA58EF8DB7 /* FlatSwitch-dummy.m in Sources */,
 				E311F8B32387F3000039ADF6 /* FlatCheckBoxThumb.swift in Sources */,
+				E4314D2123C85E6C00363A3A /* FlatSwitchConfiguration.swift in Sources */,
+				E4314D1F23C85CD600363A3A /* DisabledStateView.swift in Sources */,
 				E311F8B42387F3000039ADF6 /* FlatCheckBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

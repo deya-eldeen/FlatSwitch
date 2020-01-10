@@ -7,9 +7,14 @@
 //
 
 import UIKit
+import FlatSwitch
 
 class ViewController: UIViewController {
 
+	
+	@IBOutlet weak var firstFlatSwitch: FlatCheckBox!
+	@IBOutlet weak var secondFlatSwitch: FlatCheckBox!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -20,5 +25,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+	@IBAction func flatSwitchValueChanged(_ sender: FlatCheckBox) {
+		sender.set(isOn: !sender.isOn, animated: true)
+	}
+	
+	
+	@IBAction func secondFlatSwitchValueChanged(_ sender: Any) {
+		firstFlatSwitch.set(isEnabled: !firstFlatSwitch.isEnabled, animated: true)
+	}
 }
 

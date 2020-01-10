@@ -10,92 +10,117 @@ import Foundation
 import UIKit
 
 @IBDesignable open class FlatCheckBox: UIControl {
+	
+
+	//MARK: Properties
+	
+	open override var isEnabled: Bool {
+		didSet {
+			if _wasEnabledSettedByMethod {
+				_wasEnabledSettedByMethod = false
+				return
+			}
+			
+			set(isEnabled: isEnabled, animated: false)
+		}
+	}
+	
+	public var configuration: FlatSwitchConfiguration = .default() {
+		didSet {
+			set(isOn: isOn, animated: false)
+		}
+	}
+	
+	
+	@IBInspectable var offColor : UIColor? {
+		didSet {
+			if !isOn {
+				set(isOn: false, animated: true)
+			}
+		}
+	}
+	
+	@IBInspectable var borderWidth : CGFloat {
+		set {
+			self.backgroundView.layer.borderWidth = newValue
+			
+			if !isOn {
+				thumbHeightConstraint.constant = -borderWidth
+				layoutIfNeeded()
+			}
+		}
+		
+		get {
+			return self.backgroundView.layer.borderWidth
+		}
+	}
+	
+	
+	@IBInspectable open var isOn : Bool = true {
+		didSet {
+			if _wasSettedByMethod {
+				_wasSettedByMethod = false
+				return
+			}
+			
+			set(isOn: isOn, animated: false)
+		}
+	}
+
+	
+	private var borderColor : UIColor? {
+		set {
+			self.layer.borderColor = newValue?.cgColor
+		}
+		get {
+			if let cgColor = self.layer.borderColor {
+				return UIColor(cgColor: cgColor)
+			}
+			return nil
+		}
+	}
     
     var thumbEdgeConstraint : NSLayoutConstraint!
     var labelThumbConstraint : NSLayoutConstraint!
     var labelEdgeConstraint : NSLayoutConstraint!
     var thumbHeightConstraint: NSLayoutConstraint!
 
-    
-    @IBInspectable var offColor : UIColor?
 
     private let backgroundView : UIView = UIView()
+	private let disabledStateView: UIView = DisabledStateView()
     private let label : UILabel = UILabel()
-
     private let thumb = FlatCheckBoxThumb()
-    
-    private var borderColor : UIColor? {
-        set {
-            self.layer.borderColor = newValue?.cgColor
-        }
-        get {
-            if let cgColor = self.layer.borderColor {
-                return UIColor(cgColor: cgColor)
-            }
-            return nil
-        }
-    }
-    
-    @IBInspectable var borderWidth : CGFloat {
-        set {
-            self.backgroundView.layer.borderWidth = newValue
-            
-            if !isOn {
-                thumbHeightConstraint.constant = -borderWidth
-                layoutIfNeeded()
-            }
-        }
-        
-        get {
-            return self.backgroundView.layer.borderWidth
-        }
-    }
-    
-    fileprivate var _wasSettedByMethod = false
-    
-    @IBInspectable open var isOn : Bool = true {
-        didSet {
-            if _wasSettedByMethod {
-                _wasSettedByMethod = false
-                return
-            }
-                
-            set(isOn: isOn, animated: false)
-        }
-    }
-    
-    override open func layoutSubviews() {
-        super.layoutSubviews()
-        self.backgroundView.layer.cornerRadius = self.frame.height / 2.0
-    }
+	
+	private var _wasSettedByMethod = false
+	private var _wasEnabledSettedByMethod = false
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
+	
+	public init(configuration: FlatSwitchConfiguration){
+		self.configuration = configuration
+		super.init(frame: .zero)
+		setup()
+	}
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
-    
-    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        set(isOn: !self.isOn, animated: true)
-    }
-    
-    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
-    
-    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
+	
+	override open func layoutSubviews() {
+		super.layoutSubviews()
+		self.backgroundView.layer.cornerRadius = self.frame.height / 2.0
+	}
     
     private func setupConstraints(){
         thumb.translatesAutoresizingMaskIntoConstraints = false
         label.translatesAutoresizingMaskIntoConstraints = false
 
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
+		disabledStateView.translatesAutoresizingMaskIntoConstraints = false
 
         thumbHeightConstraint = thumb.heightAnchor.constraint(equalTo: self.heightAnchor)
         thumbHeightConstraint.isActive = true
@@ -118,19 +143,16 @@ import UIKit
             backgroundView.bottomAnchor.constraint(equalTo:     self.bottomAnchor, constant: 0)
         ]
         
-        
-        for constraint in thumbConstraints {
-            constraint.isActive = true
-        }
-        
-        for constraint in labelConstraints {
-            constraint.isActive = true
-        }
-        
-        for constraint in backgroundViewConstraints {
-            constraint.isActive = true
-        }
-        
+		let disabledViewConstraints = [
+			disabledStateView.trailingAnchor.constraint(equalTo:   self.trailingAnchor, constant: 0),
+			disabledStateView.leadingAnchor.constraint(equalTo:    self.leadingAnchor, constant: 0),
+			disabledStateView.topAnchor.constraint(equalTo:        self.topAnchor, constant: 0),
+			disabledStateView.bottomAnchor.constraint(equalTo:     self.bottomAnchor, constant: 0)
+		]
+		
+		(thumbConstraints + labelConstraints + backgroundViewConstraints + disabledViewConstraints).forEach {
+			$0.isActive = true
+		}
     }
     
     fileprivate func setup(){
@@ -139,13 +161,63 @@ import UIKit
         addSubview(backgroundView)
         addSubview(label)
         addSubview(thumb)
+		addSubview(disabledStateView)
         setupConstraints()
         
+		set(isEnabled: true, animated: false)
         set(isOn: true, animated: false)
         
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         label.textAlignment = .center
+		setupGestureRecognizers()
     }
+	
+	@objc func didTap(){
+		internal_set(isOn: !self.isOn, animated: true)
+	}
+	
+	@objc func didSwipe(sender: UISwipeGestureRecognizer){
+		switch (sender.direction, isOn) {
+		case (.right, false):
+			internal_set(isOn: true, animated: true)
+		case (.left, true):
+			internal_set(isOn: false, animated: true)
+		default:
+			break
+		}
+	}
+	
+	fileprivate func setupGestureRecognizers(){
+		let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(didTap))
+		let rightSwipeGesture = UISwipeGestureRecognizer.init(target: self, action: #selector(didSwipe))
+		rightSwipeGesture.direction = .right
+		let leftSwipeGesture = UISwipeGestureRecognizer.init(target: self, action: #selector(didSwipe))
+		leftSwipeGesture.direction = .left
+		
+		[tapGesture,rightSwipeGesture,leftSwipeGesture].forEach { gesture in
+			self.addGestureRecognizer(gesture)
+		}
+		
+	}
+	
+	private func internal_set(isOn: Bool, animated: Bool){
+		sendActions(for: .valueChanged)
+		set(isOn: isOn, animated: animated)
+	}
+	
+	open func set(isEnabled: Bool, animated: Bool){
+		_wasEnabledSettedByMethod = true
+		self.isEnabled = isEnabled
+		
+		if isEnabled {
+			self.bringSubview(toFront: disabledStateView)
+		}
+		
+		UIView.animate(withDuration: 0.3) {
+			self.disabledStateView.alpha = isEnabled ? 0 : 1
+			self.thumb.alpha = isEnabled ? 1 : 0
+		}
+	}
     
     open func set(isOn: Bool, animated: Bool){
         _wasSettedByMethod = true
@@ -155,7 +227,7 @@ import UIKit
             self.backgroundView.backgroundColor = isOn ? self.tintColor : self.backgroundColor 
             self.thumb.backgroundColor = isOn ? self.tintColor : self.offColor
             self.label.textColor = isOn ? .white : self.offColor  
-            self.label.text = isOn ? "ON" : "OFF"
+			self.label.text = isOn ? self.configuration.onStateLabel : self.configuration.offStateLabel
             self.thumb.shadowOffsetX = isOn ? -2 : 2
         }
         
