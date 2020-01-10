@@ -25,7 +25,7 @@ pod 'FlatSwitch'
 
 ## Author
 
-deya-eldeen, deyaa@jeeran.com
+deya-eldeen, 3denator@gmail.com
 
 ## License
 

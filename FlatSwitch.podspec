@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FlatSwitch'
-  s.version          = '1.2.2'
+  s.version          = '1.2.4'
   s.summary          = 'iOS Animated Flat Switch..'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/deya-eldeen/FlatSwitch'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'deya-eldeen' => 'deyaa@jeeran.com' }
+  s.author           = { 'deya-eldeen' => '3denator@gmail.com' }
   s.source           = { :git => 'https://github.com/deya-eldeen/FlatSwitch.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
