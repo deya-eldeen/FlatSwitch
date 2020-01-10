@@ -9,7 +9,7 @@ import UIKit
 
 class DisabledStateView: UIView {
 	
-	private let label : UILabel = UILabel()
+	let label : UILabel = UILabel()
 	
 	public override init(frame: CGRect) {
 		super.init(frame: frame)

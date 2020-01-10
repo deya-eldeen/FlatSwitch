@@ -25,22 +25,48 @@ import UIKit
 		}
 	}
 	
-	public var configuration: FlatSwitchConfiguration = .default() {
+	public var onConfiguration: FlatSwitchConfiguration = .defaultOn() {
 		didSet {
-			set(isOn: isOn, animated: false)
+			reloadForConfiguration()
+		}
+	}
+	
+	public var offConfiguration: FlatSwitchConfiguration = .defaultOff() {
+		didSet {
+			reloadForConfiguration()
 		}
 	}
 	
 	
-	@IBInspectable var offColor : UIColor? {
+	public var labelFont: UIFont = .systemFont(ofSize: 15, weight: .medium) {
+		didSet {
+			label.font = labelFont
+			disabledStateView.label.font = labelFont
+		}
+	}
+	
+	public var offBorderColor: UIColor? = .lightGray {
 		didSet {
 			if !isOn {
-				set(isOn: false, animated: true)
+				borderColor = offBorderColor
 			}
 		}
 	}
 	
-	@IBInspectable var borderWidth : CGFloat {
+	// default to be the background color, dimmed with 0.3 alpha
+	public var disabledBackgroundColor: UIColor? {
+		didSet {
+			disabledStateView.backgroundColor = disabledBackgroundColor
+		}
+	}
+	
+	public var disabledTitle: String? {
+		didSet {
+			disabledStateView.label.text = disabledTitle
+		}
+	}
+	
+	@IBInspectable public var borderWidth : CGFloat {
 		set {
 			self.backgroundView.layer.borderWidth = newValue
 			
@@ -70,10 +96,10 @@ import UIKit
 	
 	private var borderColor : UIColor? {
 		set {
-			self.layer.borderColor = newValue?.cgColor
+			self.backgroundView.layer.borderColor = newValue?.cgColor
 		}
 		get {
-			if let cgColor = self.layer.borderColor {
+			if let cgColor = self.backgroundView.layer.borderColor {
 				return UIColor(cgColor: cgColor)
 			}
 			return nil
@@ -86,10 +112,10 @@ import UIKit
     var thumbHeightConstraint: NSLayoutConstraint!
 
 
-    private let backgroundView : UIView = UIView()
-	private let disabledStateView: UIView = DisabledStateView()
-    private let label : UILabel = UILabel()
-    private let thumb = FlatCheckBoxThumb()
+	private let backgroundView: UIView = .init()
+	private let disabledStateView: DisabledStateView = .init()
+	private let label: UILabel = .init()
+	private let thumb: FlatCheckBoxThumb = .init()
 	
 	private var _wasSettedByMethod = false
 	private var _wasEnabledSettedByMethod = false
@@ -99,8 +125,9 @@ import UIKit
         setup()
     }
 	
-	public init(configuration: FlatSwitchConfiguration){
-		self.configuration = configuration
+	public init(onConfiguration: FlatSwitchConfiguration, offConfiguration: FlatSwitchConfiguration){
+		self.onConfiguration = onConfiguration
+		self.offConfiguration = offConfiguration
 		super.init(frame: .zero)
 		setup()
 	}
@@ -163,9 +190,10 @@ import UIKit
         addSubview(thumb)
 		addSubview(disabledStateView)
         setupConstraints()
-        
-		set(isEnabled: true, animated: false)
-        set(isOn: true, animated: false)
+
+		borderColor = offBorderColor
+		set(isEnabled: isEnabled, animated: false)
+        set(isOn: isOn, animated: false)
         
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         label.textAlignment = .center
@@ -200,9 +228,13 @@ import UIKit
 		
 	}
 	
+	private func reloadForConfiguration(){
+		set(isOn: isOn, animated: false)
+	}
+	
 	private func internal_set(isOn: Bool, animated: Bool){
-		sendActions(for: .valueChanged)
 		set(isOn: isOn, animated: animated)
+		sendActions(for: .valueChanged)
 	}
 	
 	open func set(isEnabled: Bool, animated: Bool){
@@ -213,9 +245,17 @@ import UIKit
 			self.bringSubview(toFront: disabledStateView)
 		}
 		
-		UIView.animate(withDuration: 0.3) {
+		let changesBlock = {
 			self.disabledStateView.alpha = isEnabled ? 0 : 1
+			self.backgroundView.alpha = isEnabled ? 1 : 0
+			self.label.alpha = isEnabled ? 1 : 0
 			self.thumb.alpha = isEnabled ? 1 : 0
+		}
+		
+		if animated {
+			UIView.animate(withDuration: 0.3, animations: changesBlock)
+		} else {
+			changesBlock()
 		}
 	}
     
@@ -224,24 +264,26 @@ import UIKit
         self.isOn = isOn
         
         let changesBlock = {
-            self.backgroundView.backgroundColor = isOn ? self.tintColor : self.backgroundColor 
-            self.thumb.backgroundColor = isOn ? self.tintColor : self.offColor
-            self.label.textColor = isOn ? .white : self.offColor  
-			self.label.text = isOn ? self.configuration.onStateLabel : self.configuration.offStateLabel
+			self.backgroundView.backgroundColor = isOn ? self.onConfiguration.backgroundColor : self.offConfiguration.backgroundColor
+			self.thumb.backgroundColor = isOn ? self.onConfiguration.thumbBackgroundColor : self.offConfiguration.thumbBackgroundColor
+			self.thumb.imageView.image = isOn ? self.onConfiguration.thumbImage : self.offConfiguration.thumbImage
+			
+			self.label.textColor = isOn ? self.onConfiguration.titleColor : self.offConfiguration.titleColor
+			self.label.text = isOn ? self.onConfiguration.title : self.offConfiguration.title
             self.thumb.shadowOffsetX = isOn ? -2 : 2
         }
         
         if animated {
             let animation = CABasicAnimation.init(keyPath: "borderColor")
-            animation.fromValue = !isOn ? self.tintColor.cgColor : self.offColor?.cgColor
-            animation.toValue = isOn ? self.tintColor.cgColor : self.offColor?.cgColor
+            animation.fromValue = !isOn ?  self.onConfiguration.backgroundColor?.cgColor : self.offBorderColor?.cgColor
+            animation.toValue = isOn ?  self.onConfiguration.backgroundColor?.cgColor : self.offBorderColor?.cgColor
             animation.duration = 0.3
             animation.fillMode = kCAFillModeBoth
             animation.isRemovedOnCompletion = false
             self.backgroundView.layer.add(animation, forKey: "borderColorAnim")
             UIView.animate(withDuration: 0.3, animations: changesBlock)
         } else {
-            self.backgroundView.layer.borderColor = isOn ? self.tintColor.cgColor : self.offColor?.cgColor
+			self.backgroundView.layer.borderColor = isOn ? self.onConfiguration.backgroundColor?.cgColor : self.offBorderColor?.cgColor
             changesBlock()
         }
         

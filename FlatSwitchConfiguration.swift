@@ -7,21 +7,47 @@
 
 import Foundation
 
+let defaultTint: UIColor = .lightGray
+
 public struct FlatSwitchConfiguration {
 	
-	public let disabledStateTitle: String?
-	public let onStateLabel: String?
-	public let offStateLabel: String?
+	// thumb background color ( on, off )
+	// thumb tint color ( on, off )
+	// background color ( on, off )
+	// border color ( off )
+	// title color ( on, off, disabled )
+	// title ( on, off, disabled )
+	// title font
+
+	public var backgroundColor: UIColor?
+	public var title: String?
+	public var thumbBackgroundColor: UIColor?
+	public var thumbImage: UIImage?
+	public var thumbTintColor: UIColor?
+	public var titleColor: UIColor?
 	
-	public let backgroundColor: UIColor?
-	public let tintColor: UIColor?
-	public let borderColor: UIColor?
+	public init(backgroundColor: UIColor?, title: String?, thumbBackgroundColor: UIColor?, thumbImage: UIImage?, thumbTintColor: UIColor?, titleColor: UIColor?){
+		self.backgroundColor = backgroundColor
+		self.title = title
+		self.thumbBackgroundColor = thumbBackgroundColor
+		self.thumbImage = thumbImage
+		self.thumbTintColor = thumbTintColor
+		self.titleColor = titleColor
+	}
 	
-	public let disabledStateLabelColor: UIColor?
-	public let offThumbImage: UIImage?
-	public let onThumbImage: UIImage?
+	public static func defaultOn() -> FlatSwitchConfiguration {
+		let bundle = Bundle(for: FlatCheckBox.self)
+		let image = UIImage(named: "check", in: bundle, compatibleWith: nil)
+		
+		return .init(backgroundColor: defaultTint, title: "On", thumbBackgroundColor: defaultTint, thumbImage: image, thumbTintColor: .white, titleColor: .white)
+	}
 	
-	public static func `default`() -> FlatSwitchConfiguration {
-		return .init(disabledStateTitle: "Disabled", onStateLabel: "On", offStateLabel: "Off", backgroundColor: UIColor.blue, tintColor: UIColor.blue, borderColor: UIColor.blue, disabledStateLabelColor: UIColor.white, offThumbImage: UIImage(named: "check"), onThumbImage: UIImage(named: "check"))
+	public static func defaultOff() -> FlatSwitchConfiguration {
+		let bundle = Bundle(for: FlatCheckBox.self)
+		let image = UIImage(named: "check", in: bundle, compatibleWith: nil)
+
+		
+		return .init(backgroundColor: .clear, title: "Off", thumbBackgroundColor: .lightGray, thumbImage: image, thumbTintColor: .white, titleColor: .lightGray)
 	}
 }
+
