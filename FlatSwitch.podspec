@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FlatSwitch'
-  s.version          = '1.2'
+  s.version          = '1.2.1'
   s.summary          = 'iOS Animated Flat Switch..'
 
 # This description is used to generate tags and improve search results.
