@@ -12,6 +12,7 @@
 		08B87C792EF4162C0094DF95 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B87C782EF4162C0094DF95 /* Icons.swift */; };
 		08B87C7C2EF41AA80094DF95 /* SubEngineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B87C7B2EF41AA80094DF95 /* SubEngineButton.swift */; };
 		08B87C7D2EF41AA80094DF95 /* ParentEngineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B87C7A2EF41AA80094DF95 /* ParentEngineButton.swift */; };
+		08B87C802EF41FEF0094DF95 /* FlatSwitch in Frameworks */ = {isa = PBXBuildFile; productRef = 08B87C7F2EF41FEF0094DF95 /* FlatSwitch */; };
 		CE2F0A192C00D1A800861C5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2F0A182C00D1A800861C5C /* ContentView.swift */; };
 		CE2F0A1B2C00D1A800861C5C /* FlatSwitchExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2F0A1A2C00D1A800861C5C /* FlatSwitchExampleApp.swift */; };
 		CE2F0A1D2C00D1B200861C5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2F0A1C2C00D1B200861C5C /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08B87C802EF41FEF0094DF95 /* FlatSwitch in Frameworks */,
 				CE2F0A252C00D23A00861C5C /* FlatSwitch in Frameworks */,
 				08B87C752EF4117A0094DF95 /* FlatSwitch in Frameworks */,
 			);
@@ -104,6 +106,7 @@
 			packageProductDependencies = (
 				CE2F0A242C00D23A00861C5C /* FlatSwitch */,
 				08B87C742EF4117A0094DF95 /* FlatSwitch */,
+				08B87C7F2EF41FEF0094DF95 /* FlatSwitch */,
 			);
 			productName = FlatSwitchExample;
 			productReference = CE2F0A142C00D18E00861C5C /* FlatSwitchExample.app */;
@@ -134,7 +137,7 @@
 			);
 			mainGroup = CE2F0A0B2C00D18E00861C5C;
 			packageReferences = (
-				08B87C732EF4117A0094DF95 /* XCLocalSwiftPackageReference ".." */,
+				08B87C7E2EF41FEF0094DF95 /* XCRemoteSwiftPackageReference "FlatSwitch" */,
 			);
 			productRefGroup = CE2F0A152C00D18E00861C5C /* Products */;
 			projectDirPath = "";
@@ -384,16 +387,25 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		08B87C732EF4117A0094DF95 /* XCLocalSwiftPackageReference ".." */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ..;
+/* Begin XCRemoteSwiftPackageReference section */
+		08B87C7E2EF41FEF0094DF95 /* XCRemoteSwiftPackageReference "FlatSwitch" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/deya-eldeen/FlatSwitch.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		08B87C742EF4117A0094DF95 /* FlatSwitch */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = FlatSwitch;
+		};
+		08B87C7F2EF41FEF0094DF95 /* FlatSwitch */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08B87C7E2EF41FEF0094DF95 /* XCRemoteSwiftPackageReference "FlatSwitch" */;
 			productName = FlatSwitch;
 		};
 		CE2F0A242C00D23A00861C5C /* FlatSwitch */ = {

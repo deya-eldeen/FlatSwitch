@@ -1,0 +1,15 @@
+{
+  "originHash" : "09a4d2fa922c33ebbd9f2212fd61d9dc41f609f187f371f1a0912001364c08ee",
+  "pins" : [
+    {
+      "identity" : "flatswitch",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/deya-eldeen/FlatSwitch.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "f4fc54225668e8d11a4fc23844675873c1382328"
+      }
+    }
+  ],
+  "version" : 3
+}
